@@ -1,0 +1,407 @@
+@charset "UTF-8";
+
+/*
+=============================================
+数字字体添加
+命名规则
+
+1.占位符选择器，全部用“-”连接命名
+2.混合器定义(也就是函数名)，全部用“-”连接命名
+3.混合器中的参数，全部用驼峰命名
+=============================================
+*/
+
+/*
+=============================================
+占位符选择器
+使用方法：@extend %box-sizing-border;
+=============================================
+*/
+$img: "~@/assets/img/";
+
+@use 'sass:math';
+
+$remSwitch: on !default;
+$rootFont: 20 !default;
+
+@function ptrd($px) {
+  @if $remSwitch == on {
+    @return math.div(math.div($px, $px * 0 + 1), $rootFont) * 0.5 * 1rem;
+  } @else if $remSwitch == off_half {
+    @return math.div($px, $px * 0 + 1) * 0.5 * 1px;
+  } @else {
+    @return math.div($px, $px * 0 + 1) * 1px;
+  }
+}
+
+// 一行截字 显示...
+%ellipsis-basic {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 快速滚动
+%scrolling-touch {
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+}
+
+// 文字垂直居中
+%boxpack-center {
+  display: box;
+  display: -webkit-box;
+  display: -moz-box;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+}
+
+%flex-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+%max-img {
+  display: block;
+  max-width: 100%;
+  height: auto !important;
+}
+
+%clearfix {
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+}
+
+%pic-small {
+  &.pic-small {
+    overflow: hidden;
+
+    img {
+      width: 160%;
+      height: auto;
+      margin: -30% auto auto -30%;
+    }
+  }
+}
+
+%font-number {
+  font-family: "din_alternate_bold_number";
+  font-weight: normal;
+}
+
+/*
+=============================================
+资讯提供   占位符选择器
+使用方法：@extend %box-sizing-border;
+=============================================
+*/
+
+//广告标签
+%athm-advmark {
+  content: "";
+  display: inline-block;
+  width: ptrd(54);
+  height: ptrd(28);
+  background: url(https://s.autoimg.cn/mass/athm-advmark.png) no-repeat;
+  background-size: ptrd(54) ptrd(28);
+}
+
+//白色背景打底图
+%athm-holdimg-white {
+  background: url(https://s.autoimg.cn/as/static/holdimg_white.png) center center no-repeat;
+  background-size: 50% auto;
+}
+
+//黑色背景打底图
+%athm-holdimg-balck {
+  background: url(https://s.autoimg.cn/as/static/holdimg_black.png) center center no-repeat;
+  background-size: 50% auto;
+}
+
+//loading加载
+%athm-loading {
+  display: inline-block;
+  width: ptrd(48);
+  height: ptrd(48);
+  vertical-align: top;
+  background: url(https://s.autoimg.cn/mass/athm-loading.svg) no-repeat;
+  background-size: 100% 100%;
+}
+
+//小怪兽图标 loading
+%athm-loong-loading {
+  width: ptrd(128);
+  height: ptrd(128);
+  background: url("https://s.autoimg.cn/dealer/m/publicimg/athm_loong_loading.gif") no-repeat center center;
+  background-size: ptrd(128);
+}
+
+//小怪兽图标 无网络
+%athm-loong-network {
+  width: ptrd(320);
+  height: ptrd(320);
+  background: url("https://s.autoimg.cn/dealer/m/publicimg/athm_loong_network2.png") no-repeat center center;
+  background-size: ptrd(320);
+}
+
+//小怪兽图标 暂无数据
+%athm-loong-normal {
+  width: ptrd(320);
+  height: ptrd(320);
+  background: url("https://s.autoimg.cn/dealer/m/publicimg/athm_loong_normal2.png") no-repeat center center;
+  background-size: ptrd(320);
+}
+
+//小怪兽图标 加载失败
+%athm-loong-fail {
+  width: ptrd(320);
+  height: ptrd(320);
+  background: url("https://s.autoimg.cn/dealer/m/publicimg/athm_loong_fail2.png") no-repeat center center;
+  background-size: ptrd(320);
+}
+
+//小怪兽图标 处理
+%athm-loong-deal {
+  width: ptrd(320);
+  height: ptrd(320);
+  background: url("https://s.autoimg.cn/dealer/m/publicimg/athm_loong_deal.png") no-repeat center center;
+  background-size: ptrd(320);
+}
+
+@mixin high-light($opacity) {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, $opacity);
+}
+
+@mixin fn-ellipsis($line) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line;
+  overflow: hidden;
+}
+
+@mixin translate-center($position) {
+  position: $position;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin fixed-ratio($padding-top: 100%) {
+  width: 100%;
+  height: 0;
+  padding-top: $padding-top;
+}
+
+// 美化占位符 placeholder 样式
+// 例：@include beauty-placeholder(20px, #666, right);
+@mixin beauty-placeholder($fontsize: 32, $color: #c5cad4, $align: left) {
+  &::-webkit-input-placeholder {
+    font-size: ptrd($fontsize);
+    color: $color;
+    text-align: $align;
+  }
+}
+
+// 箭头
+// 例：@include arrow(bottom,10px,#F00); 下方10PX红色箭头
+@mixin arrow($direction, $size, $color) {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  font-size: 0;
+  line-height: 0;
+  cursor: pointer;
+  border-width: ptrd($size);
+
+  @if $direction == top {
+    border-color: transparent transparent $color transparent;
+    border-style: dashed dashed solid;
+    border-top: none;
+  } @else if $direction == bottom {
+    border-color: $color transparent transparent transparent;
+    border-style: solid dashed dashed;
+    border-bottom: none;
+  } @else if $direction == right {
+    border-color: transparent transparent transparent $color;
+    border-style: dashed dashed dashed solid;
+    border-right: none;
+  } @else if $direction == left {
+    border-color: transparent $color transparent transparent;
+    border-style: dashed solid dashed dashed;
+    border-left: none;
+  }
+}
+
+// 箭头 带边框
+// 例：@include arrow-border(top,20,#fff,#999,calc(50% - #{ptrd(20)}); 上方10PX红色箭头
+// @include arrow-border($position:calc(100% - #{ptrd(100)})); 也可通过配置单独项只改其中一个值
+@mixin arrow-border(
+  $direction: top,
+  $size: 12,
+  $bgColor: #fff,
+  $borderColor: #999,
+  $position: calc(50% - #{ptrd(12)})
+) {
+  background-color: $bgColor;
+  filter: drop-shadow(0 2px 4px rgba($borderColor, 0.4));
+  border: 1px solid $borderColor;
+
+  &::before {
+    position: absolute;
+    z-index: 2;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    line-height: 0;
+    content: "";
+    border-style: solid;
+    border-width: ptrd($size);
+
+    @if $direction == top {
+      top: ptrd(-$size + 1);
+      left: $position;
+      border-color: transparent transparent $bgColor transparent;
+      border-style: dashed dashed solid;
+      border-top: none;
+    } @else if $direction == bottom {
+      bottom: ptrd(-$size + 1);
+      left: $position;
+      border-color: $bgColor transparent transparent transparent;
+      border-style: solid dashed dashed;
+      border-bottom: none;
+    } @else if $direction == left {
+      top: $position;
+      left: ptrd(-$size + 1);
+      border-color: transparent $bgColor transparent transparent;
+      border-style: dashed solid dashed dashed;
+      border-left: none;
+    } @else if $direction == right {
+      top: $position;
+      right: ptrd(-$size + 1);
+      border-color: transparent transparent transparent $bgColor;
+      border-style: dashed dashed dashed solid;
+      border-right: none;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    z-index: 1;
+    width: 0;
+    height: 0;
+    content: "";
+    border-style: solid;
+    border-width: ptrd($size);
+
+    @if $direction == top {
+      top: ptrd(-($size + 2));
+      left: $position;
+      border-color: transparent transparent $borderColor transparent;
+      border-style: dashed dashed solid;
+      border-top: none;
+    } @else if $direction == bottom {
+      bottom: ptrd(-($size + 2));
+      left: $position;
+      border-color: $borderColor transparent transparent transparent;
+      border-style: solid dashed dashed;
+      border-bottom: none;
+    } @else if $direction == left {
+      top: $position;
+      left: ptrd(-($size + 2));
+      border-color: transparent $borderColor transparent transparent;
+      border-style: dashed solid dashed dashed;
+      border-left: none;
+    } @else if $direction == right {
+      top: $position;
+      right: ptrd(-($size + 2));
+      border-color: transparent transparent transparent $borderColor;
+      border-style: dashed dashed dashed solid;
+      border-right: none;
+    }
+  }
+}
+
+// 水平渐变，从左往右
+// @include gradient-horizontal(#333, #ccc);
+@mixin gradient-horizontal($gradient...) {
+  background-image: linear-gradient(to right, $gradient);
+}
+
+// 水平渐变，从左往右，平铺
+// @include gradient-horizontal-repeating(#333 5%, #ccc 10%);
+@mixin gradient-horizontal-repeating($gradient...) {
+  background-image: repeating-linear-gradient(to right, $gradient);
+}
+
+// 垂直渐变，从上往下
+// @include gradient-vertical(#333 30%, #ccc);
+@mixin gradient-vertical($gradient...) {
+  background-image: linear-gradient(to bottom, $gradient);
+}
+
+// 垂直渐变，从上往下，平铺
+// @include gradient-vertical-repeating(#333, #ccc 50%);
+@mixin gradient-vertical-repeating($gradient...) {
+  background-image: repeating-linear-gradient(to bottom, $gradient);
+}
+
+// 角度渐变
+// @include gradient-angle(45deg, #333 30%, #ccc);
+@mixin gradient-angle($gradient...) {
+  background-image: linear-gradient($gradient);
+}
+
+// 角度渐变
+// @include gradient-angle(45deg, #333 30%, #ccc 50%);
+@mixin gradient-angle-repeating($gradient...) {
+  background-image: repeating-linear-gradient($gradient); // Standard, IE1
+}
+
+// 径向渐变，可以写点简单的
+// 如：@include gradient-radial(#00F,#FFF);
+// 而@include gradient-radial(farthest-side circle at right,#00F,#FFF);这种的将不会兼容，所以不要调用这个，可以去找工具生成
+@mixin gradient-radial($gradient...) {
+  background-image: radial-gradient($gradient);
+  background-repeat: no-repeat;
+}
+
+// 容器渐变蒙层 需要4个值全传 方向，长，宽，高，颜色，都要定义
+// 例：上 @include gradient-mask(top,100%,ptrd(40),#f00);
+// 例：下 @include gradient-mask(bottom,100%,ptrd(40),#f00);
+// 例：左 @include gradient-mask(left,ptrd(40),100%,#f00);
+// 例：右 @include gradient-mask(right,ptrd(40),100%,#f00);
+@mixin gradient-mask($direction: bottom, $gradientWidth: 100%, $gradientHeight: 20, $color: #fff) {
+  position: absolute;
+  width: $gradientWidth;
+  height: $gradientHeight;
+  content: "";
+
+  @if $direction == top {
+    top: 0;
+    left: 0;
+
+    @include gradient-vertical($color, transparent);
+  } @else if $direction == bottom {
+    bottom: 0;
+    left: 0;
+
+    @include gradient-vertical(transparent, $color);
+  } @else if $direction == right {
+    top: 0;
+    right: 0;
+
+    @include gradient-horizontal(transparent, $color);
+  } @else if $direction == left {
+    top: 0;
+    left: 0;
+
+    @include gradient-horizontal($color, transparent);
+  }
+}
