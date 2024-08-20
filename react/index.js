@@ -1,0 +1,1 @@
+console.log('这是react的模版')
