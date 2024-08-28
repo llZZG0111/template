@@ -17,3 +17,13 @@ app.component('VueDraggable', draggable);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
+
+// fetch('/api/suggest?q=love&num=1&doctype=json').then((res) => {
+//   console.log('res', res);
+//   console.log(
+//     'res',
+//     res.text().then((ress) => {
+//       console.log('ress', JSON.parse(ress));
+//     })
+//   );
+// });

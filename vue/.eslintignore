@@ -1,0 +1,6 @@
+node_modules
+dist  # 打包目录
+example # 项目示例目录
+build  # webpack 工程构建目录
+dep
+/**/*.d.ts
